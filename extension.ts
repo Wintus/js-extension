@@ -11,6 +11,9 @@ interface Props {
   [key: string]: unknown;
   [key: number]: unknown;
 }
+interface Methods<T> {
+  [key: string]: (this: ThisType<T>, ...args: unknown[]) => unknown;
+}
 type PropMap = {
   [key: string]: Props;
   [key: number]: Props;
