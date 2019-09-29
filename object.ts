@@ -1,15 +1,15 @@
 import "./extension";
 
-type F = (value: [string, unknown]) => [PropertyKey, unknown];
+type F<V, R> = (value: [string, V]) => [PropertyKey, R];
 
 declare global {
   interface Object {
-    map(f: F): ReturnType<F>[];
+    map<T, U>(this: {}, f: F<T, U>): ReturnType<F<T, U>>[];
   }
 }
 
 Object.extension({
-  map(this: Object, f: F) {
-    return Object.fromEntries(Object.entries(this).map(f));
+  map<T, U>(this: {}, f: F<T, U>) {
+    return Object.fromEntries(Object.entries<T>(this).map(f));
   },
 });
