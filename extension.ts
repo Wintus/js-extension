@@ -1,4 +1,8 @@
 type Class = FunctionConstructor;
+interface MethodMap<T> {
+  [key: string]: Method<T>;
+}
+type Method<T> = (this: T, ...args: any[]) => unknown;
 
 const methodDescriptor: PropertyDescriptor = {
   value: undefined, // overwrite
@@ -6,11 +10,6 @@ const methodDescriptor: PropertyDescriptor = {
   enumerable: false, // hidden
   configurable: true,
 };
-
-interface MethodMap<T> {
-  [key: string]: Method<T>;
-}
-type Method<T> = (this: T, ...args: any[]) => unknown;
 
 const defineMethod = <T extends Class>(klass: T, method: Method<T>) => {
   Object.defineProperty(klass.prototype, method.name, {
