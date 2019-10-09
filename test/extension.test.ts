@@ -1,4 +1,4 @@
-import "../extension";
+import "../src/extension";
 
 test("Function prototype has extension method", () => {
   expect(Function.prototype).toHaveProperty("extension");
