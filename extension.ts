@@ -1,4 +1,8 @@
 type Class = FunctionConstructor;
+interface MethodMap<T> {
+  [key: string]: Method<T>;
+}
+type Method<T> = (this: T, ...args: any[]) => unknown;
 
 const methodDescriptor: PropertyDescriptor = {
   value: undefined, // overwrite
@@ -7,17 +11,6 @@ const methodDescriptor: PropertyDescriptor = {
   configurable: true,
 };
 
-interface Props {
-  [key: string]: unknown;
-  [key: number]: unknown;
-}
-type PropMap = {
-  [key: string]: Props;
-  [key: number]: Props;
-};
-
-type Method<T> = (this: T, ...args: any[]) => unknown;
-
 const defineMethod = <T extends Class>(klass: T, method: Method<T>) => {
   Object.defineProperty(klass.prototype, method.name, {
     ...methodDescriptor,
@@ -25,8 +18,8 @@ const defineMethod = <T extends Class>(klass: T, method: Method<T>) => {
   });
 };
 
-const defineProperties = <T extends Class>(klass: T, props: Props) => {
-  Object.entries(props).forEach(([name, value]) => {
+const defineProperties = <T extends Class>(klass: T, methods: MethodMap<T>) => {
+  Object.entries(methods).forEach(([name, value]) => {
     Object.defineProperty(klass.prototype, name, {
       ...methodDescriptor,
       value,
@@ -35,9 +28,9 @@ const defineProperties = <T extends Class>(klass: T, props: Props) => {
 };
 
 interface Function {
-  extension(props: Props): void;
+  extension<T>(methods: MethodMap<T>): void;
 }
 
-defineMethod(Function, function extension(this: Class, props: Props) {
-  defineProperties(this, props);
+defineMethod(Function, function extension(this: Class, methods: MethodMap<Class>) {
+  defineProperties(this, methods);
 });
