@@ -1,6 +1,6 @@
 import "../src/string";
 
-test("Function prototype has extension method", () => {
+test("Function prototype has extended method", () => {
   expect(String.prototype).toHaveProperty("codePoints");
 });
 

@@ -1,6 +1,6 @@
 import "../src/object";
 
-test("Function prototype has extension method", () => {
+test("Function prototype has extended method", () => {
   expect(Object.prototype).toHaveProperty("map");
 });
 
