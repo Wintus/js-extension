@@ -1,4 +1,4 @@
-import "./extension";
+import "./extend";
 
 declare global {
   interface String {
@@ -6,7 +6,7 @@ declare global {
   }
 }
 
-String.extension({
+String.extend({
   codePoints(this: String) {
     return [...this].map(s => s.codePointAt(0) as number);
   },

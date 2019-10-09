@@ -28,9 +28,9 @@ const defineProperties = <T extends Class>(klass: T, methods: MethodMap<T>) => {
 };
 
 interface Function {
-  extension<T>(methods: MethodMap<T>): void;
+  extend<T>(methods: MethodMap<T>): void;
 }
 
-defineMethod(Function, function extension(this: Class, methods: MethodMap<Class>) {
+defineMethod(Function, function extend(this: Class, methods: MethodMap<Class>) {
   defineProperties(this, methods);
 });
